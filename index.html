@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="CssStyles" rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="Media/ico/downies_Inc_logo.ico" type="image/icon-Type">
+    <title>Welcome to Downies Inc.</title>
+</head>
+<body>
+    <ul>
+        <li><a href="#start">Home</a></li>
+        <li><a href="#imgs">Images & Videos</a></li>
+        <li><a href="#next_events">Upcoming Events</a></li>
+    </ul> 
+
+    <section id="start" class="sections">
+        <div class="centered">
+            Welcome to the Official Homepage of Downies Inc.
+        </div>
+
+    </section>
+
+
+    <!-- Images & Videos Section -->
+    <section id="imgs" class="sections scroll-section">
+        <div class="scroll-container">
+            <div class="scroll-line left-to-right">
+                <img src="image1.jpg" alt="Image 1">
+                <video src="video1.mp4" controls></video>
+                <img src="image2.jpg" alt="Image 2">
+                <!-- Add more images and videos as needed -->
+            </div>
+        </div>
+        <div class="scroll-container">
+            <div class="scroll-line right-to-left">
+                <video src="video2.mp4" controls></video>
+                <img src="image3.jpg" alt="Image 3">
+                <img src="image4.jpg" alt="Image 4">
+                <!-- Add more images and videos as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section id="next_events" class="sections">
+        <h2>Upcoming Events</h2>
+        <div id="events-list"></div>
+        <div id="event-form">
+            <h3>Create New Event</h3>
+            <input type="text" id="event-name" placeholder="Event Name" required>
+            <input type="date" id="event-date" required>
+            <input type="time" id="event-time" required>
+            <input type="text" id="event-location" placeholder="location of event" required>
+            <button onclick="addEvent()">Add Event</button>
+        </div>
+    </section>
+
+</body>
+</html>
+-
