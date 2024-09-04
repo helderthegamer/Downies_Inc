@@ -1,9 +1,24 @@
+:root {
+    --primary-bg-color: #ececec;
+    --secondary-bg-color: #fff;
+    --hover-bg-color: #c7c7c7;
+    --text-color: #000;
+    --accent-color: #268a82;
+    --form-bg-color: #f9f9f9;
+    --form-border-color: #333;
+    --font-family-main: 'Arial', 'Helvetica', sans-serif;
+    --font-family-alt: 'Verdana', 'Geneva', sans-serif;
+    --scroll-speed: 10s;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-family-main);
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll bars */
+    overflow-x: hidden;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
 }
 
 ul {
@@ -11,32 +26,31 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: var(--primary-bg-color);
     width: 100%;
 }
-  
+
 li {
     float: left;
 }
-  
+
 li a {
     display: block;
-    color: white;
+    color: var(--text-color);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
-  
-/* Change the link color to #111 (black) on hover */
+
 li a:hover {
-    background-color: #111;
+    background-color: var(--hover-bg-color);
 }
 
 .scroll-section {
     margin: 20px 0;
     width: 100%;
     overflow: hidden;
-    border: 1px solid red;
 }
 
 .scroll-container {
@@ -44,12 +58,17 @@ li a:hover {
     white-space: nowrap;
     margin: 20px 0;
     overflow: hidden;
+    position: relative;
+    height: 16vw;
 }
 
 .scroll-line {
     display: inline-block;
     white-space: nowrap;
-    animation: scroll-left-to-right 20s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    animation: scroll-loop var(--scroll-speed) linear infinite;
+}
+.scroll-line:hover {
+    animation-play-state: paused;
 }
 
 .left-to-right {
@@ -62,43 +81,161 @@ li a:hover {
 
 .scroll-line img,
 .scroll-line video {
-    width: 200px;
-    height: auto;
     margin-right: 10px;
     vertical-align: middle;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes scroll-left-to-right {
-    0% {
-        transform: translateX(0vw);
-    }
-    100% {
-        transform: translateX(100vw);
-    }
+.media-content {
+    height: 15vw;
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: height 0.3s ease;
+    vertical-align: middle;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+.media-content:hover {
+    height: 16vw;
 }
 
-@keyframes scroll-right-to-left {
+@keyframes scroll-loop {
     0% {
-        transform: translateX(100vw);
+        transform: translateX(0);
     }
     100% {
-        transform: translateX(0vw);
+        transform: translateX(-50%);
     }
 }
 
 /* Styles for the event form */
 #event-form {
     margin: 20px;
-    padding: 10px;
-    border: 1px solid #333;
-    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid var(--form-border-color);
+    background-image: url("Media/img/downies_Inc_logo.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: var(--form-bg-color);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#event-form h3 {
+    font-family: var(--font-family-alt);
+    color: var(--text-color);
+    margin-bottom: 15px;
 }
 
 #event-form input,
 #event-form button {
-    margin: 5px 0;
-    padding: 10px;
+    margin: 10px 0;
+    padding: 12px;
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
     box-sizing: border-box;
+    font-family: var(--font-family-main);
+    border: 1px solid var(--form-border-color);
+    border-radius: 4px;
+    background-color: white;
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
+}
+
+#event-form input:hover,
+#event-form button:hover {
+    opacity: 1;
+}
+
+#event-form button {
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#event-form button:hover {
+    background-color: var(--accent-color);
+}
+
+/* Centered Section Styling */
+.sections {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.centered {
+    font-size: 24px;
+    font-family: var(--font-family-alt);
+    color: var(--text-color);
+    background-color: var(--secondary-bg-color);
+    padding: 20px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Upcoming Events Section */
+#next_events h2 {
+    color: var(--accent-color);
+    font-family: var(--font-family-alt);
+}
+
+#events-list {
+    margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
+}
+
+#events-list li {
+    padding: 10px;
+    background-color: var(--secondary-bg-color);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-family: var(--font-family-main);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    display: block;
+    margin: auto;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link id="CssStyles" rel="stylesheet" type="text/css" href="style.css">
     <link rel="icon" href="Media/ico/downies_Inc_logo.ico" type="image/icon-Type">
+    <script src="script.js"></script>
     <title>Welcome to Downies Inc.</title>
 </head>
 <body>
@@ -18,44 +19,161 @@
         <div class="centered">
             Welcome to the Official Homepage of Downies Inc.
         </div>
-
     </section>
-
 
     <!-- Images & Videos Section -->
     <section id="imgs" class="sections scroll-section">
         <div class="scroll-container">
-            <div class="scroll-line left-to-right">
-                <img src="image1.jpg" alt="Image 1">
-                <video src="video1.mp4" controls></video>
-                <img src="image2.jpg" alt="Image 2">
-                <!-- Add more images and videos as needed -->
-            </div>
-        </div>
-        <div class="scroll-container">
-            <div class="scroll-line right-to-left">
-                <video src="video2.mp4" controls></video>
-                <img src="image3.jpg" alt="Image 3">
-                <img src="image4.jpg" alt="Image 4">
-                <!-- Add more images and videos as needed -->
+            <div class="scroll-line">
+                <div class="scroll-content">
+                    <img src="Media/img/builders.jpg" alt="Image not found" class="media-content">
+                    <video src="Media/videos/vid1.mp4" controls class="media-content">Image not found</video>
+                    <img src="Media/img/fabian-love.jpg" alt="Image not found" class="media-content">
+                    <img src="Media/img/google-review-1.jpg" alt="Image not found" class="media-content">
+                    <video src="Media/videos/vid2.mp4" controls class="media-content">Image not found</video>
+                    <img src="Media/img/google-review-2.jpg" alt="Image not found" class="media-content">
+                    <img src="Media/img/nico-meme.jpg" alt="Image not found" class="media-content">
+                    <video src="Media/videos/vid3.mp4" controls class="media-content">Image not found</video>
+                </div>
             </div>
         </div>
     </section>
+    
 
     <!-- Upcoming Events Section -->
     <section id="next_events" class="sections">
         <h2>Upcoming Events</h2>
-        <div id="events-list"></div>
+        <ul id="events-list"></ul>
+    </section>
+
+    <!-- Event Form Section (Moved to Bottom) -->
+    <section id="event_form_section" class="sections">
         <div id="event-form">
             <h3>Create New Event</h3>
             <input type="text" id="event-name" placeholder="Event Name" required>
             <input type="date" id="event-date" required>
             <input type="time" id="event-time" required>
-            <input type="text" id="event-location" placeholder="location of event" required>
-            <button onclick="addEvent()">Add Event</button>
+            <input type="text" id="event-location" placeholder="Location of Event" required>
+            <button id="eventForumSubmit">Add Event</button>
         </div>
     </section>
 
+    <!-- Modal for Popup -->
+    <div id="mediaModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <video class="modal-content" id="modalVideo" controls></video>
+    </div>
+
+    <script>
+        // Fetch event data and update the list dynamically
+        function fetchEventData() {
+            const eventDatabaseURLs = {
+                time: "https://kvs.wireway.ch/database/all/cc4164effcb6eaf1/",
+                location: "https://kvs.wireway.ch/database/all/5caca5b03eca8fdc/",
+                name: "https://kvs.wireway.ch/database/all/7c02f78d05886542/",
+                date: "https://kvs.wireway.ch/database/all/d4820f55465ecb05/",
+            };
+        
+            document.getElementById("events-list").innerHTML = ""; // Clear previous entries
+        
+            // Fetch and display events
+            Promise.all(Object.values(eventDatabaseURLs).map(url => fetch(url).then(res => res.json()))).then(dataArray => {
+                dataArray[0].forEach((event, index) => {
+                    const eventDetails = {
+                        time: dataArray[0][index].value,
+                        location: dataArray[1][index].value,
+                        name: dataArray[2][index].value,
+                        date: dataArray[3][index].value
+                    };
+                    const li = document.createElement("li");
+                    
+                    // Creating a box-like structure with each detail underneath the previous one
+                    li.innerHTML = `
+                        <strong>Event:</strong> ${eventDetails.name}<br>
+                        <strong>Date:</strong> ${eventDetails.date}<br>
+                        <strong>Time:</strong> ${eventDetails.time}<br>
+                        <strong>Location:</strong> ${eventDetails.location}
+                    `;
+                    li.style.border = "1px solid #ccc"; // Adding a border to make it look like a box
+                    li.style.padding = "10px"; // Adding padding inside the box
+                    li.style.marginBottom = "10px"; // Adding some space between boxes
+                    
+                    document.getElementById("events-list").appendChild(li);
+                });
+            });
+        }
+
+        // Initial fetch
+        fetchEventData();
+
+        // Refresh event data every 10 seconds
+        setInterval(fetchEventData, 10000);
+
+        // Event form submission
+        document.getElementById("eventForumSubmit").addEventListener("click", (e) => {
+            const eventName = document.getElementById("event-name").value;
+            const eventDate = document.getElementById("event-date").value;
+            const eventTime = document.getElementById("event-time").value;
+            const eventLocation = document.getElementById("event-location").value;
+
+            createEvent(eventTime, eventLocation, eventName, eventDate);
+        });
+
+        function createEvent(time, loc, name, date) {
+            const eventID = Date.now();
+
+            fetch("https://kvs.wireway.ch/database/cc4164effcb6eaf1/" + eventID, {
+                "body": `{"value":"${time}"}`,
+                "headers": { "Content-Type": "application/json" },
+                "method": "POST",
+            });
+            fetch("https://kvs.wireway.ch/database/5caca5b03eca8fdc/" + eventID, {
+                "body": `{"value":"${loc}"}`,
+                "headers": { "Content-Type": "application/json" },
+                "method": "POST",
+            });
+            fetch("https://kvs.wireway.ch/database/7c02f78d05886542/" + eventID, {
+                "body": `{"value":"${name}"}`,
+                "headers": { "Content-Type": "application/json" },
+                "method": "POST",
+            });
+            fetch("https://kvs.wireway.ch/database/d4820f55465ecb05/" + eventID, {
+                "body": `{"value":"${date}"}`,
+                "headers": { "Content-Type": "application/json" },
+                "method": "POST",
+            });
+        }
+
+        // Popup Modal for Images and Videos
+        const modal = document.getElementById("mediaModal");
+        const modalImg = document.getElementById("modalImg");
+        const modalVideo = document.getElementById("modalVideo");
+        const mediaItems = document.querySelectorAll(".media-content");
+
+        mediaItems.forEach(item => {
+            item.addEventListener("click", function() {
+                if (this.tagName === "IMG") {
+                    modalImg.style.display = "block";
+                    modalVideo.style.display = "none";
+                    modalImg.src = this.src;
+                } else if (this.tagName === "VIDEO") {
+                    modalImg.style.display = "none";
+                    modalVideo.style.display = "block";
+                    modalVideo.src = this.src;
+                }
+                modal.style.display = "block";
+            });
+        });
+
+        // Close the modal
+        const closeBtn = document.getElementsByClassName("close")[0];
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+            modalImg.src = "";
+            modalVideo.src = "";
+        }
+    </script>
+
 </body>
 </html>
--

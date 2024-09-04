@@ -1,0 +1,10 @@
+        <div class="scroll-container">
+            <div class="scroll-line right-to-left">
+                <video src="video2.mp4" controls></video>
+                <img src="image3.jpg" alt="Image 3">
+                <img src="image4.jpg" alt="Image 4">
+                <!-- Add more images and videos as needed -->
+            </div>
+        </div>
+
+        code for img scroller
